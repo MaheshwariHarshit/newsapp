@@ -1,7 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import Navbar from './Components/Navbar';
 import News from './Components/News';
 import LoadingBar from 'react-top-loading-bar'
@@ -11,44 +10,37 @@ import {
   Route,
 } from "react-router-dom";
 
-export default class App extends Component {
-  pageSize = 9
-  apiKey = process.env.REACT_APP_NEWS_API
+function App() {
+  const pageSize = 9
+  const apiKey = process.env.REACT_APP_NEWS_API
 
-  constructor() {
-    super()
-    this.state = {
-      progress: 0
-    }
-  }
+  const [progress, setProgress] = useState(0)
 
-  setProgress = (progress)=>{
-    this.setState({progress: progress})
+  const updateProgress = (progress) => {
+    setProgress(progress)
   }
-
-  render() {
-    return (
-      <>
-        <Router>
-          <Navbar />
-          <LoadingBar
-            color='#f11946'
-            progress={this.state.progress}
-            onLoaderFinished={() => this.setProgress(0)}
-            height='2px'
-          />
-          <Routes>
-            <Route exact path="/business" element={<News apiKey = {this.apiKey}  setProgress = {this.setProgress} key="business" pageSize={this.pageSize} country="in" category="business" />} />
-            <Route exact path="/entertainment" element={<News apiKey = {this.apiKey}  setProgress = {this.setProgress} key="entertainment" pageSize={this.pageSize} country="in" category="entertainment" />} />
-            <Route exact path="/" element={<News apiKey = {this.apiKey}  setProgress = {this.setProgress} key="general" pageSize={this.pageSize} country="in" category="general" />} />
-            <Route exact path="/health" element={<News apiKey = {this.apiKey}  setProgress = {this.setProgress} key="health" pageSize={this.pageSize} country="in" category="health/" />} />
-            <Route exact path="/science" element={<News apiKey = {this.apiKey}  setProgress = {this.setProgress} key="science" pageSize={this.pageSize} country="in" category="science/" />} />
-            <Route exact path="/sports" element={<News apiKey = {this.apiKey}  setProgress = {this.setProgress} key="sports" pageSize={this.pageSize} country="in" category="sports/" />} />
-            <Route exact path="/technology" element={<News apiKey = {this.apiKey}  setProgress = {this.setProgress} key="technology" pageSize={this.pageSize} country="in" category="technology/" />} />
-          </Routes>
-        </Router>
-      </>
-    )
-  }
+  return (
+    <>
+      <Router>
+        <Navbar />
+        <LoadingBar
+          color='#f11946'
+          progress={progress}
+          onLoaderFinished={() => setProgress(0)}
+          height='2px'
+        />
+        <Routes>
+          <Route exact path="/business" element={<News apiKey={apiKey} updateProgress={updateProgress} key="business" pageSize={pageSize} country="in" category="business" />} />
+          <Route exact path="/entertainment" element={<News apiKey={apiKey} updateProgress={updateProgress} key="entertainment" pageSize={pageSize} country="in" category="entertainment" />} />
+          <Route exact path="/" element={<News apiKey={apiKey} updateProgress={updateProgress} key="general" pageSize={pageSize} country="in" category="general" />} />
+          <Route exact path="/health" element={<News apiKey={apiKey} updateProgress={updateProgress} key="health" pageSize={pageSize} country="in" category="health/" />} />
+          <Route exact path="/science" element={<News apiKey={apiKey} updateProgress={updateProgress} key="science" pageSize={pageSize} country="in" category="science/" />} />
+          <Route exact path="/sports" element={<News apiKey={apiKey} updateProgress={updateProgress} key="sports" pageSize={pageSize} country="in" category="sports/" />} />
+          <Route exact path="/technology" element={<News apiKey={apiKey} updateProgress={updateProgress} key="technology" pageSize={pageSize} country="in" category="technology/" />} />
+        </Routes>
+      </Router>
+    </>
+  )
 }
 
+export default App;
